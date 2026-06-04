@@ -25,12 +25,9 @@ PDF, Word, and other file types are ignored.
 git clone https://github.com/wadejosephhirschbuhl/dart-rag.git
 cd dart-rag
 
-python3 -m venv v
-. v/bin/activate
-python -m pip install -r requirements.txt
+./setup.sh
 
-ollama pull gemma3:4b
-ollama pull nomic-embed-text
+. v/bin/activate
 ```
 
 ## Add documents
