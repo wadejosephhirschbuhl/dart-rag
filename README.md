@@ -78,4 +78,4 @@ python r.py --reindex
 → answer with gemma3:4b
 ```
 
-Documents and the local vector database are ignored by git.
+Private documents and the local vector database are ignored by git. The demo document is included.
