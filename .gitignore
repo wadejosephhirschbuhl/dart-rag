@@ -1,0 +1,6 @@
+v/
+db/
+__pycache__/
+.DS_Store
+dart-rag-docs/*
+!dart-rag-docs/.gitkeep
