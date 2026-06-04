@@ -6,25 +6,23 @@ Tiny local RAG in the terminal using:
 - Gemma 3 4B
 - LangChain
 - Chroma
-- local documents in `dart-rag-docs/`
+- local `.txt` and `.md` documents in `dart-rag-docs/`
 
 ## Supported document types
 
-Put any of these file types into `dart-rag-docs/`:
+Only these file types are supported:
 
 | Type | Extension |
 |---|---|
 | Plain text | `.txt` |
 | Markdown | `.md` |
-| PDF | `.pdf` |
-| Word document | `.docx` |
 
-Unsupported files are ignored.
+PDF, Word, and other file types are ignored.
 
 ## Setup
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/dart-rag.git
+git clone https://github.com/wadejosephhirschbuhl/dart-rag.git
 cd dart-rag
 
 python3 -m venv v
@@ -37,7 +35,7 @@ ollama pull nomic-embed-text
 
 ## Add documents
 
-Put your `.txt`, `.md`, `.pdf`, or `.docx` files into:
+Put `.txt` or `.md` files into:
 
 ```bash
 dart-rag-docs/
@@ -48,9 +46,7 @@ Example:
 ```text
 dart-rag-docs/
 ├── notes.txt
-├── policy.md
-├── article.pdf
-└── report.docx
+└── policy.md
 ```
 
 ## Run
@@ -74,7 +70,7 @@ python r.py --reindex
 ## How it works
 
 ```text
-.txt / .md / .pdf / .docx documents
+.txt / .md documents
 → split into chunks
 → embed with nomic-embed-text
 → store/search in Chroma

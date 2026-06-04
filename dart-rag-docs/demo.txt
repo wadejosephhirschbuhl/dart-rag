@@ -1,4 +1,5 @@
-The dart-rag demo uses Ollama with gemma3:4b.
-Documents are stored in the folder dart-rag-docs.
-The vector database is stored locally in a folder named db.
-To update the index after changing documents, run python r.py --reindex.
+This demo uses Ollama with gemma3:4b.
+Only .txt and .md documents are supported.
+Documents go in the dart-rag-docs folder.
+The local Chroma database is stored in db.
+To rebuild the index after editing documents, run python r.py --reindex.

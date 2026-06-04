@@ -1,30 +1,21 @@
 import os,glob,re,shutil
 from pathlib import Path
+from langchain_core.documents import Document
 from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings,ChatOllama
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.document_loaders import TextLoader,PyPDFLoader,Docx2txtLoader
 
 DOCS="dart-rag-docs";DB="db"
 
 def clean(s):return re.sub(r"\n{3,}","\n\n",re.sub(r"[ \t]+"," ",s.replace("\r",""))).strip()
 
-def load(f):
- e=Path(f).suffix.lower()
- L=PyPDFLoader(f) if e==".pdf" else Docx2txtLoader(f) if e==".docx" else TextLoader(f,encoding="utf-8")
- docs=L.load()
- for d in docs:
-  d.page_content=clean(d.page_content)
-  d.metadata|={"source":Path(f).name,"page":d.metadata.get("page",0)+1}
- return docs
-
 E=OllamaEmbeddings(model="nomic-embed-text")
 if "--reindex" in os.sys.argv:shutil.rmtree(DB,ignore_errors=True)
 
 if not Path(DB).exists():
- files=[f for x in("txt","md","pdf","docx")for f in glob.glob(f"{DOCS}/*.{x}")]
- if not files:raise SystemExit("Put files in dart-rag-docs/")
- docs=[d for f in files for d in load(f) if d.page_content]
+ files=[f for x in("txt","md") for f in glob.glob(f"{DOCS}/*.{x}")]
+ if not files:raise SystemExit("Put .txt or .md files in dart-rag-docs/")
+ docs=[Document(page_content=clean(open(f,encoding="utf-8").read()),metadata={"source":Path(f).name,"page":1}) for f in files]
  chunks=RecursiveCharacterTextSplitter(chunk_size=1200,chunk_overlap=200).split_documents(docs)
  Chroma.from_documents(chunks,E,persist_directory=DB)
  print(f"Indexed {len(files)} files, {len(chunks)} chunks.")
